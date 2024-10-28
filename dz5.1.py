@@ -9,17 +9,17 @@ class Name(Field):
 
 class Phone(Field):
     def __init__(self, value):
-        if not value.isdigit() or len(value) not in (10, 12):  # Базова перевірка номера телефону
-            raise ValueError("Неправильний формат номера телефону.")
+        if not value.isdigit() or len(value) not in (10, 12):  # Базовая проверка номера телефона
+            raise ValueError("Неправильный формат номера телефона.")
         super().__init__(value)
 
 class Birthday(Field):
     def __init__(self, value):
         try:
-            # Перетворення рядка дати на об'єкт datetime
+            # Преобразование строки даты в объект datetime
             self.value = datetime.strptime(value, "%d.%m.%Y")
         except ValueError:
-            raise ValueError("Неправильний формат дати. Використовуйте формат ДД.ММ.РРРР")
+            raise ValueError("Неправильный формат даты. Используйте формат ДД.ММ.ГГГГ")
 
 class Record:
     def __init__(self, name):
@@ -37,7 +37,7 @@ class Record:
         if not self.birthday:
             return None
         today = datetime.now().date()
-        next_birthday = self.birthday.value.replace(year=today.year)
+        next_birthday = self.birthday.value.replace(year=today.year).date()  # Преобразование в date
         if next_birthday < today:
             next_birthday = next_birthday.replace(year=today.year + 1)
         return (next_birthday - today).days

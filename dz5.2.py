@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 
 def input_error(handler):
-   
     def wrapper(*args, **kwargs):
         try:
             return handler(*args, **kwargs)
@@ -52,7 +51,7 @@ class Record:
         if not self.birthday:
             return None
         today = datetime.now().date()
-        next_birthday = self.birthday.value.replace(year=today.year)
+        next_birthday = self.birthday.value.replace(year=today.year).date()  # Преобразование в date
         if next_birthday < today:
             next_birthday = next_birthday.replace(year=today.year + 1)
         return (next_birthday - today).days
@@ -76,7 +75,6 @@ class AddressBook:
         return upcoming_birthdays
 
 def parse_input(user_input):
-    
     parts = user_input.strip().split()
     command = parts[0].lower()
     args = parts[1:]
